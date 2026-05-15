@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .divider-b { border-bottom: 2px solid rgba(80, 115, 105, 0.22); }
+  .divider-t { border-top:    2px solid rgba(80, 115, 105, 0.22); }
+  .divider-l { border-left:   2px solid rgba(80, 115, 105, 0.22); }
+  .divider-card { border:     2px solid rgba(80, 115, 105, 0.22); }
+}
+
+@layer base {
+  :root {
+    /* Light theme (default) */
+    --background: 40 20% 95%;
+    --foreground: 0 0% 10%;
+    --card: 40 15% 92%;
+    --card-foreground: 0 0% 10%;
+    --popover: 40 15% 92%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 162 65% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 6% 55%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 40 10% 88%;
+    --muted-foreground: 25 5% 45%;
+    --accent: 162 65% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 10% 82%;
+    --input: 40 10% 88%;
+    --ring: 162 65% 45%;
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --bg-base: #e8f2f0;
+    --bg-card: #daeae7;
+    --bg-nav: #cfe3df;
+    --text-primary: #1a2e2a;
+    --text-secondary: #4d6b65;
+    --text-muted: #86a9a3;
+    --accent-teal: #2a9d7a;
+    --accent-teal-dim: rgba(42, 157, 122, 0.25);
+    --dot-legal: #e85d5d;
+    --dot-debt: #f5a623;
+    --dot-job: #4a9eff;
+    --dot-bv: #9b6dff;
+    --dot-personal: #2a9d7a;
+    --dot-admin: #8a8580;
+    --search-glow: rgba(42, 157, 122, 0.38);
+  }
+
+  .dark {
+    /* Dark theme */
+    --background: 0 0% 10%;
+    --foreground: 40 20% 94%;
+    --card: 0 0% 14%;
+    --card-foreground: 40 20% 94%;
+    --popover: 0 0% 14%;
+    --popover-foreground: 40 20% 94%;
+    --primary: 162 65% 51%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 30 6% 60%;
+    --secondary-foreground: 40 20% 94%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 25 5% 40%;
+    --accent: 162 65% 51%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 40 20% 94%;
+    --border: 0 0% 20%;
+    --input: 0 0% 14%;
+    --ring: 162 65% 51%;
+
+    /* Custom tokens */
+    --bg-base: #1a1a1a;
+    --bg-card: #252525;
+    --bg-nav: #111111;
+    --text-primary: #f5f2eb;
+    --text-secondary: #a39e93;
+    --text-muted: #6b6560;
+    --accent-teal: #2dd4a8;
+    --accent-teal-dim: rgba(45, 212, 168, 0.25);
+    --dot-legal: #e85d5d;
+    --dot-debt: #f5a623;
+    --dot-job: #4a9eff;
+    --dot-bv: #9b6dff;
+    --dot-personal: #2dd4a8;
+    --dot-admin: #a39e93;
+    --search-glow: rgba(45, 212, 168, 0.38);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
