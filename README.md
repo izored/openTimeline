@@ -48,28 +48,35 @@ The data is yours. The schema is yours. The code is yours.
 
 ## Quick start
 
+### Try it instantly (no database)
+
 ```bash
-# 1. Clone
 git clone https://github.com/izored/openTimeline.git
 cd openTimeline
-
-# 2. Install
 npm install
-
-# 3. Configure
-cp .env.example .env
-# → edit DATABASE_URL
-
-# 4. Push schema to your DB
-npm run db:push
-
-# 5. Run dev server (Vite + Hono on :3000)
 npm run dev
 ```
 
-Then open `http://localhost:3000`.
+Open `http://localhost:3000`. The app ships with 85 demo events spanning 2022–2026 — the frontend automatically falls back to demo data when no database is connected. Perfect for evaluating the UI.
 
-The app ships with demo data so you can preview the UI without a database. Connect one when you're ready to use your own data.
+### Connect your own database
+
+```bash
+# 1. Copy env template
+cp .env.example .env
+
+# 2. Edit DATABASE_URL — point to your TiDB or MySQL instance
+#    e.g. mysql://user:pass@host:3306/opentimeline
+
+# 3. Push schema to the database
+npm run db:push
+
+# 4. (Optional) Load demo data into your DB
+npx tsx db/seed-fast.ts
+
+# 5. Restart dev server
+npm run dev
+```
 
 ---
 

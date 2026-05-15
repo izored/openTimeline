@@ -1,6 +1,6 @@
 {
   "name": "opentimeline",
-  "version": "0.1.0",
+  "version": "0.47.0",
   "description": "A local-first, open-source dashboard for documenting personal events on a scrollable vertical timeline. Tag with actors, group by subjects, navigate by year.",
   "type": "module",
   "license": "MIT",

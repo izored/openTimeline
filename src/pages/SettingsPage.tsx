@@ -202,7 +202,7 @@ export default function SettingsPage() {
               <Card>
                 <CardLabel icon={Info} title="About" />
                 <CardRow label="Version" description="OpenTimeline release">
-                  <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>v0.1.0</span>
+                  <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>v0.47.0</span>
                 </CardRow>
                 <CardRow label="Data scope" description="Events in this timeline">
                   <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>2022–present</span>
@@ -215,7 +215,7 @@ export default function SettingsPage() {
           <footer className="mt-8 pt-6 divider-t">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>OpenTimeline v0.1.0</span>
+                <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>OpenTimeline v0.47.0</span>
                 <span className="text-[12px]" style={{ color: 'var(--border)' }}>·</span>
                 <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>MIT License</span>
               </div>
