@@ -6,6 +6,26 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versio
 
 ---
 
+## 🚀 [0.48.0] — 2026-05-16
+
+### 🛠️ Bug fixes
+
+- 🔍 `event.search` — refactored from O(n) per-event queries to a single LEFT JOIN; actors grouped in JS after one round-trip
+- 🪟 Subject detail panel — no longer blocked by loading state; opens immediately on pill click with loading indicator while data fetches
+- 🪟 Subject detail panel — demo mode fallback: builds subject + events from local data when no DB is connected
+- 📐 Subject detail panel — timeline spine repositioned from mid-dates (`left-78px`) to right of dates (`left-152px`), matching main timeline layout
+- 📅 Subject detail panel — years now sorted newest-first, matching main timeline order
+- 🖱️ Subject detail panel — mouse wheel scroll now works; Lenis no longer intercepts events inside the panel (`data-lenis-prevent`)
+- ⚙️ Settings page — Export and About cards now side by side in the bento grid instead of stacked in one column
+
+### 📚 Documentation
+
+- 📖 `CONTRIBUTING.md` — added: setup, workflow, code conventions, domain constants, known gaps
+- 🛣️ `ROADMAP.md` — restructured with status key, versioned horizons, and all Settings page placeholders documented as planned items
+- 🔑 `.env.example` — corrected misleading comment on `APP_SECRET` (was "used for JWT signing"; now "Reserved — not used at runtime")
+
+---
+
 ## 🚀 [0.47.0] — 2026-05-15
 
 First public release. Ground-truth baseline for the repo and local development.

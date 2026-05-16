@@ -15,12 +15,13 @@ interface SubjectDetailProps {
     events: any[];
     eventsByYear: Record<number, any[]>;
   } | null;
+  isLoading?: boolean;
   onClose: () => void;
   onEventClick: (event: TimelineEvent) => void;
   selectedEventId: string | null;
 }
 
-export default function SubjectDetail({ subject, onClose, onEventClick, selectedEventId }: SubjectDetailProps) {
+export default function SubjectDetail({ subject, isLoading, onClose, onEventClick, selectedEventId }: SubjectDetailProps) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose();
@@ -29,19 +30,44 @@ export default function SubjectDetail({ subject, onClose, onEventClick, selected
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  if (!subject) return null;
+  if (!subject) return (
+    <>
+      <div className="fixed inset-0 z-40 bg-black/50 animate-in fade-in duration-300" onClick={onClose} />
+      <div
+        className="fixed top-0 right-0 h-screen w-full md:w-[560px] z-50 flex items-center justify-center animate-in slide-in-from-right duration-400"
+        style={{
+          background: 'var(--bg-card)',
+          borderLeft: '1px solid var(--border)',
+          animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-1 z-10 transition-colors"
+          style={{ color: 'var(--text-secondary)' }}
+          aria-label="Close panel"
+        >
+          <X size={24} />
+        </button>
+        <p className="text-[14px]" style={{ color: 'var(--text-secondary)' }}>
+          {isLoading ? 'Loading…' : 'Subject not found.'}
+        </p>
+      </div>
+    </>
+  );
 
   const dotColor = categoryColors[subject.category] || '#a39e93';
   const tagLabel = categoryLabels[subject.category] || subject.category;
   const statusStyle = statusColors[subject.status] || statusColors.resolved;
 
-  const years = Object.keys(subject.eventsByYear).map(Number).sort((a, b) => a - b);
+  const years = Object.keys(subject.eventsByYear).map(Number).sort((a, b) => b - a);
 
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/50 animate-in fade-in duration-300" onClick={onClose} />
       <div
         className="fixed top-0 right-0 h-screen w-full md:w-[560px] z-50 overflow-y-auto animate-in slide-in-from-right duration-400"
+        data-lenis-prevent
         style={{
           background: 'var(--bg-card)',
           borderLeft: '1px solid var(--border)',
@@ -105,7 +131,7 @@ export default function SubjectDetail({ subject, onClose, onEventClick, selected
           </h3>
 
           <div className="relative">
-            <div className="absolute left-[78px] top-0 bottom-0 w-[2px]" style={{ background: 'var(--accent-teal)', opacity: 0.3 }} />
+            <div className="absolute left-[152px] top-0 bottom-0 w-[2px]" style={{ background: 'var(--accent-teal)', opacity: 0.3 }} />
 
             {years.map((year) => (
               <div key={year} className="mb-8">

@@ -184,38 +184,37 @@ export default function SettingsPage() {
               </CardRow>
             </Card>
 
-            {/* Export + About stacked in one column */}
-            <div className="flex flex-col gap-3">
-              <Card>
-                <CardLabel icon={Download} title="Export" />
-                <CardRow label="Export timeline" description="Download as CSV or PDF">
-                  <button
-                    disabled
-                    className="text-[12px] px-3 py-1.5 rounded-md opacity-40 cursor-not-allowed shrink-0"
-                    style={{ background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
-                  >
-                    Coming soon
-                  </button>
-                </CardRow>
-              </Card>
+            {/* Export */}
+            <Card>
+              <CardLabel icon={Download} title="Export" />
+              <CardRow label="Export timeline" description="Download as CSV or PDF">
+                <button
+                  disabled
+                  className="text-[12px] px-3 py-1.5 rounded-md opacity-40 cursor-not-allowed shrink-0"
+                  style={{ background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
+                >
+                  Coming soon
+                </button>
+              </CardRow>
+            </Card>
 
-              <Card>
-                <CardLabel icon={Info} title="About" />
-                <CardRow label="Version" description="OpenTimeline release">
-                  <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>v0.47.0</span>
-                </CardRow>
-                <CardRow label="Data scope" description="Events in this timeline">
-                  <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>2022–present</span>
-                </CardRow>
-              </Card>
-            </div>
+            {/* About */}
+            <Card>
+              <CardLabel icon={Info} title="About" />
+              <CardRow label="Version" description="OpenTimeline release">
+                <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>v0.48.0</span>
+              </CardRow>
+              <CardRow label="Data scope" description="Events in this timeline">
+                <span className="text-[12px] shrink-0" style={{ color: 'var(--text-muted)' }}>2022–present</span>
+              </CardRow>
+            </Card>
 
           </div>
 
           <footer className="mt-8 pt-6 divider-t">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>OpenTimeline v0.47.0</span>
+                <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>OpenTimeline v0.48.0</span>
                 <span className="text-[12px]" style={{ color: 'var(--border)' }}>·</span>
                 <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>MIT License</span>
               </div>

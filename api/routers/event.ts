@@ -187,34 +187,46 @@ export const eventRouter = createRouter({
       const db = getDb();
       const q = input.query.toLowerCase();
 
-      const allEvents = await db.select().from(events);
-      const result = [];
+      // Single JOIN — no per-event queries
+      const rows = await db
+        .select({
+          event: events,
+          actorName: actors.name,
+          actorRole: actors.role,
+        })
+        .from(events)
+        .leftJoin(eventActors, eq(eventActors.eventId, events.id))
+        .leftJoin(actors, eq(actors.id, eventActors.actorId));
 
-      for (const ev of allEvents) {
-        const actorLinks = await db
-          .select({ name: actors.name, role: actors.role })
-          .from(eventActors)
-          .innerJoin(actors, eq(eventActors.actorId, actors.id))
-          .where(eq(eventActors.eventId, ev.id));
-
-        const matches =
-          ev.title.toLowerCase().includes(q) ||
-          (ev.description ?? "").toLowerCase().includes(q) ||
-          ev.category.toLowerCase().includes(q) ||
-          ev.year.toString().includes(q) ||
-          actorLinks.some((a) => a.name.toLowerCase().includes(q) || a.role.toLowerCase().includes(q));
-
-        if (matches) {
-          result.push({
-            ...ev,
-            actors: actorLinks,
-            evidence: (ev.evidence as Array<{ label: string; filename: string }>) ?? [],
-            relatedSlugs: (ev.relatedSlugs as string[]) ?? [],
-          });
+      // Group rows by event id
+      const eventMap = new Map<
+        number,
+        { ev: typeof events.$inferSelect; actorLinks: Array<{ name: string; role: string }> }
+      >();
+      for (const row of rows) {
+        if (!eventMap.has(row.event.id)) {
+          eventMap.set(row.event.id, { ev: row.event, actorLinks: [] });
+        }
+        if (row.actorName != null && row.actorRole != null) {
+          eventMap.get(row.event.id)!.actorLinks.push({ name: row.actorName, role: row.actorRole });
         }
       }
 
-      return result;
+      return [...eventMap.values()]
+        .filter(
+          ({ ev, actorLinks }) =>
+            ev.title.toLowerCase().includes(q) ||
+            (ev.description ?? "").toLowerCase().includes(q) ||
+            ev.category.toLowerCase().includes(q) ||
+            ev.year.toString().includes(q) ||
+            actorLinks.some((a) => a.name.toLowerCase().includes(q) || a.role.toLowerCase().includes(q))
+        )
+        .map(({ ev, actorLinks }) => ({
+          ...ev,
+          actors: actorLinks,
+          evidence: (ev.evidence as Array<{ label: string; filename: string }>) ?? [],
+          relatedSlugs: (ev.relatedSlugs as string[]) ?? [],
+        }));
     }),
 });
 

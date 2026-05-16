@@ -8,6 +8,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import SubjectDetail from '@/components/SubjectDetail';
 import AddEventForm from '@/components/AddEventForm';
 import { events as demoEvents, subjects as demoSubjects } from '@/data/events';
+import { useMemo } from 'react';
 import type { TimelineEvent } from '@/types';
 import './App.css';
 
@@ -25,7 +26,7 @@ function App() {
   const { data: eventsByYearData, refetch: refetchEvents } = trpc.event.byYear.useQuery();
   const { data: subjectsApiData, refetch: refetchSubjects } = trpc.subject.list.useQuery();
   const { data: actorsData } = trpc.actor.list.useQuery();
-  const { data: selectedSubjectData } = trpc.subject.bySlug.useQuery(
+  const { data: selectedSubjectData, isLoading: isSubjectLoading } = trpc.subject.bySlug.useQuery(
     { slug: selectedSubjectSlug! },
     { enabled: !!selectedSubjectSlug }
   );
@@ -135,6 +136,22 @@ function App() {
     refetchEvents();
     refetchSubjects();
   }, [refetchEvents, refetchSubjects]);
+
+  // Demo fallback for subject detail (no DB → bySlug returns null)
+  const demoSubjectDetail = useMemo(() => {
+    if (!selectedSubjectSlug || isSubjectLoading || selectedSubjectData != null) return null;
+    const sub = demoSubjects.find((s) => s.slug === selectedSubjectSlug);
+    if (!sub) return null;
+    const subEvents = demoEvents.filter((ev) => ev.category === sub.category);
+    const eventsByYear: Record<number, TimelineEvent[]> = {};
+    [...subEvents].sort((a, b) => b.year - a.year).forEach((ev) => {
+      if (!eventsByYear[ev.year]) eventsByYear[ev.year] = [];
+      eventsByYear[ev.year].push(ev);
+    });
+    return { ...sub, id: 0, events: subEvents, eventsByYear };
+  }, [selectedSubjectSlug, selectedSubjectData, isSubjectLoading]);
+
+  const effectiveSubjectData = selectedSubjectData ?? demoSubjectDetail;
 
   // Total stats
   const totalEvents = Object.values(eventsByYear).reduce((sum, arr) => sum + arr.length, 0);
@@ -255,9 +272,10 @@ function App() {
       {selectedEvent && <DetailPanel event={selectedEvent} onClose={handleCloseDetail} />}
 
       {/* Subject Detail */}
-      {selectedSubjectSlug && selectedSubjectData && (
+      {selectedSubjectSlug && (
         <SubjectDetail
-          subject={selectedSubjectData as any}
+          subject={effectiveSubjectData ?? null}
+          isLoading={isSubjectLoading}
           onClose={handleCloseSubject}
           onEventClick={handleEventClick}
           selectedEventId={selectedEvent?.id?.toString() || null}
